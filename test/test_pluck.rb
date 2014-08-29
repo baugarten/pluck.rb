@@ -25,6 +25,7 @@ class TestPluck < MiniTest::Unit::TestCase
       {"id":"3"}
 
       {"id":"4"}
+      {hello
       {"id":"5"}
       {"id":"6"}
     JSON2
