@@ -1,4 +1,4 @@
 pluck.rb
 ========
 
-Extract fields from lists of json quickly
+Extract fields from json or newline delimited json quickly

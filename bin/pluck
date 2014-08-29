@@ -1,0 +1,22 @@
+#!/usr/bin/env ruby
+
+require 'optparse'
+require 'pluck'
+
+options = {}
+
+OptionParser.new do |opts|
+  opts.banner = "Usage: pluck.rb [options] path file"
+
+  opts.on("-m", "--map", "Map over a list of JSON") do |map|
+    options[:map] = map
+  end
+end.parse!
+
+path = ARGV.shift
+input = if options[:map] then ARGF else ARGF.read end
+
+plucker = Pluck.new(path, input, options[:map])
+
+puts plucker.out
+
