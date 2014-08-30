@@ -1,0 +1,19 @@
+#!/usr/bin/env ruby
+
+require 'optparse'
+require 'where'
+
+options = {}
+
+OptionParser.new do |opts|
+  opts.banner = "Usage: where path filter file"
+end.parse!
+
+path = ARGV.shift
+filter = ARGV.shift
+input = ARGF
+
+filter = Where.new(path, input, filter)
+
+puts filter.out
+

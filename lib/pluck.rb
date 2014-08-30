@@ -2,23 +2,28 @@ require 'json'
 require 'jsonpath'
 
 class Pluck
-  def initialize(path, input, map = false)
+  def initialize(path, input, map = false, verbose = false)
     @path = path
+    @verbose = verbose
     if map
-      @out = input.lines.map do |line|
+      @_out = input.lines.map do |line|
         begin
-          parse(line)
-        rescue
+          parsed = parse(line)
+        rescue StandardError => e
+          parsed = nil
+          $stderr.puts e
           $stderr.puts "Could not parse line #{line}"
         end
-      end.compact!
+        parsed
+      end.compact
     else
-      @out = [parse(input)]
+      @_out = [parse(input)]
     end
   end
 
   def parse(input)
     res = JsonPath.on(input, @path)[0]
+    p res if @verbose
     if (res.class == Hash or res.class == Array)
       res.to_json
     else
@@ -27,6 +32,6 @@ class Pluck
   end
 
   def out
-    @out
+    @_out
   end
 end
